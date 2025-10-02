@@ -1,0 +1,11 @@
+2025-10-01 01:10:04,167 [INFO] Watching folder: C:\Users\USER\OneDrive\Desktop\Work\DocumentIntelligence-AutomationMonarchAnalytics\src\data/raw/
+2025-10-01 08:51:11,365 [INFO] Watching folder: c:\Users\USER\OneDrive\Desktop\Work\DocumentIntelligence-AutomationMonarchAnalytics\src\data/raw/
+2025-10-02 00:52:29,381 [INFO] Testing layout extraction on: c:\Users\USER\OneDrive\Desktop\Work\DocumentIntelligence-AutomationMonarchAnalytics\data\raw\sample.pdf
+2025-10-02 00:52:48,634 [INFO] Testing layout extraction on: c:\Users\USER\OneDrive\Desktop\Work\DocumentIntelligence-AutomationMonarchAnalytics\data\raw\sample.pdf
+2025-10-02 00:56:44,428 [WARNING] No test PDF found. Please place 'sample.pdf' in data/raw/
+2025-10-02 00:59:46,094 [WARNING] No test PDF found. Please place 'sample.pdf' in data/raw/
+2025-10-02 01:00:11,739 [WARNING] No test PDF found. Please place 'sample.pdf' in data/raw/
+2025-10-02 01:02:25,820 [WARNING] No test PDF found. Please place 'sample.pdf' in data/raw/
+2025-10-02 01:05:30,836 [WARNING] No PDFs found in c:\Users\USER\OneDrive\Desktop\Work\DocumentIntelligence-AutomationMonarchAnalytics\src\data\raw. Please add at least one PDF.
+2025-10-02 01:08:42,453 [INFO] Processing PDF: c:\Users\USER\OneDrive\Desktop\Work\DocumentIntelligence-AutomationMonarchAnalytics\data\raw\sample.pdf
+2025-10-02 01:55:11,020 [INFO] Watching folder: C:\Users\USER\OneDrive\Desktop\Work\DocumentIntelligence-AutomationMonarchAnalytics\src\data\raw
