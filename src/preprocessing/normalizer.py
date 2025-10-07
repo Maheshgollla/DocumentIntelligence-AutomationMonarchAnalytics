@@ -2,6 +2,10 @@ import re
 import dateparser
 from babel.numbers import parse_decimal
 from babel import Locale
+import warnings
+
+# Suppress DeprecationWarnings from dateparser
+warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 # -----------------------------
 # Date Normalization
@@ -12,7 +16,6 @@ def normalize_date(text):
     if date_obj:
         return date_obj.strftime("%Y-%m-%d")
     return None
-
 
 # -----------------------------
 # Number Normalization
@@ -42,13 +45,12 @@ def normalize_number(text):
         except ValueError:
             return None
 
-
 # -----------------------------
 # Currency Normalization
 # -----------------------------
 def normalize_currency(text):
     """
-    Normalize currency values like $100, ₹5,000, €200 -> ('USD', 100.0)
+    Normalize currency values like $100, ₹5,000, €200 -> {'currency': 'USD', 'amount': 100.0}
     """
     currency_symbols = {
         "$": "USD",
@@ -80,7 +82,6 @@ def normalize_currency(text):
 
     return None
 
-
 # -----------------------------
 # Unified Function
 # -----------------------------
@@ -106,7 +107,21 @@ def normalize_text_value(text):
 
     return {"type": "text", "value": text}
 
-
+# -----------------------------
+# Wrapper for multi-line text
+# -----------------------------
+def normalize_text(text):
+    """
+    Detect and normalize dates, currencies, and numbers in multi-line text.
+    Returns a list of normalized results.
+    """
+    results = []
+    for line in text.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        results.append(normalize_text_value(line))
+    return results
 
 # -----------------------------
 # Test block
@@ -123,18 +138,3 @@ if __name__ == "__main__":
     ]
     for s in samples:
         print(f"{s} -> {normalize_text_value(s)}")
-def normalize_text(text):
-    """
-    Wrapper to detect and normalize dates, currencies, and numbers.
-    """
-    results = []
-
-    # Example: normalize each line (adjust based on your existing code)
-    for line in text.splitlines():
-        line = line.strip()
-        if not line:
-            continue
-        # Use your existing normalization logic here
-        # e.g., call your date/currency/number normalization functions
-        results.append(line)  # or append actual normalized dict
-    return results

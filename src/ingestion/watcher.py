@@ -7,11 +7,24 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 sys.path.append(str(PROJECT_ROOT))
 
-from src.ocr.ocr_engine import run_ocr  # Fixed import
+from src.ocr.ocr_engine import run_ocr
+from src.interference.predictor import run_inference
 from src.utils.logger import logger
 
 RAW_FOLDER = PROJECT_ROOT / "data" / "raw"
 SUPPORTED_EXTENSIONS = [".pdf", ".png", ".jpg", ".jpeg"]
+
+def process_file(file_path: Path):
+    """Process a single file: OCR → Normalizer → ML → merged output"""
+    logger.info(f"Processing file: {file_path.name}")
+    ocr_result = run_ocr(file_path)
+
+    # Convert list to string if needed
+    if isinstance(ocr_result, list):
+        ocr_result = "\n".join(ocr_result)
+
+    merged_result = run_inference(ocr_result)
+    logger.info(f"✅ Final merged output: {merged_result}")
 
 def process_existing_files():
     """Process files already in the folder when watcher starts."""
@@ -19,7 +32,7 @@ def process_existing_files():
         file_path = RAW_FOLDER / f
         if file_path.is_file() and any(f.lower().endswith(ext) for ext in SUPPORTED_EXTENSIONS):
             logger.info(f"Processing existing file: {f}")
-            run_ocr(file_path)
+            process_file(file_path)
         else:
             logger.warning(f"⚠ Skipping unsupported file: {f}")
 
@@ -39,7 +52,7 @@ def run_watcher():
                 filename = Path(event.src_path).name
                 if any(filename.lower().endswith(ext) for ext in SUPPORTED_EXTENSIONS):
                     logger.info(f"New file detected: {filename}")
-                    run_ocr(event.src_path)
+                    process_file(Path(event.src_path))
                 else:
                     logger.warning(f"⚠ Skipping unsupported file: {filename}")
 
@@ -54,6 +67,7 @@ def run_watcher():
     except KeyboardInterrupt:
         observer.stop()
     observer.join()
+
 
 if __name__ == "__main__":
     run_watcher()
